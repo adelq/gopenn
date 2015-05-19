@@ -15,10 +15,24 @@ const (
 
 // Client manages communiction with the Penn OpenData API.
 type Client struct {
-	client   *http.Client
-	BaseURL  *url.URL
+	client  *http.Client
+	BaseURL *url.URL
+
+	// Credentials for API
 	username string
 	password string
+
+	// Services for communicating with API
+	Directory DirectoryService
+}
+
+type ServiceMeta struct {
+	CurrentPage        int    `json:"current_page_number"`
+	ErrorText          string `json:"error_text"`
+	NextPage           int    `json:"next_page_number"`
+	NumberPages        int    `json:"number_of_pages"`
+	PreviousPageNumber int    `json:"previous_page_number"`
+	ResultsPerPage     int    `json:"results_per_page"`
 }
 
 // NewClient returns a new Penn OpenData API client.
