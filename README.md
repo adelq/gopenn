@@ -1,5 +1,7 @@
 # Penn OpenData Go SDK
 
+[![Build Status](https://travis-ci.org/adelq/gopenn.svg?branch=master)](https://travis-ci.org/adelq/gopenn)
+
 This is the Penn OpenData API implementation in Go.
 
 ## Install
