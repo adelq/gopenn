@@ -16,3 +16,19 @@ func TestDirectory_GetPerson(t *testing.T) {
 		t.Errorf("Directory.Get returned %+v, expected %+v", person, expected)
 	}
 }
+
+func TestDirectory_Search(t *testing.T) {
+	setup()
+	defer teardown()
+
+	opt := &DirectorySearchOptions{LastName: "Wissmann"}
+	personList, _, err := client.Directory.Search(opt)
+	if err != nil {
+		t.Errorf("Directory.Search returned error: %v", err)
+	}
+
+	expected := "WISSMANN, ALEXANDER R"
+	if personList[0].Name != expected {
+		t.Errorf("Directory.Search returned %+v, expected %+v", personList, expected)
+	}
+}

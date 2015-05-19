@@ -38,7 +38,7 @@ type PersonWrap struct {
 // Acceptable parameters for use with the directory search endpoint.
 type DirectorySearchOptions struct {
 	FirstName    string `url:"first_name,omitempty"`
-	Lastname     string `url:"last_name,omitempty"`
+	LastName     string `url:"last_name,omitempty"`
 	Email        string `url:"email,omitempty"`
 	Affiliation  string `url:"affiliation,omitempty"`
 	Organization string `url:"organization,omitempty"`
@@ -46,7 +46,6 @@ type DirectorySearchOptions struct {
 
 func (s *DirectoryServiceOp) Get(personId string) (*Person, *http.Response, error) {
 	path := fmt.Sprintf("%s/%s", "directory_person_details", personId)
-	fmt.Println(path)
 
 	req, err := s.client.NewRequest("GET", path, nil)
 	if err != nil {
