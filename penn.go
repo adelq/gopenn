@@ -3,6 +3,7 @@ package penn
 import (
 	"bytes"
 	"encoding/json"
+	"io"
 	"net/http"
 	"net/url"
 )
@@ -63,4 +64,37 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 	req.Header.Add("Authorization-Bearer", c.username)
 	req.Header.Add("Authorization-Token", c.password)
 	return req, nil
+}
+
+// Do sends an API request and returns the API response. The API response is
+// JSON decoded and stored in the value pointed to by v, or returned as an
+// error if an API error has occurred, If v implements the io.Writer interface,
+// the raw response will be written to v, without attempting to decode it.
+func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
+	resp, err := c.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	defer func() {
+		if rerr := resp.Body.Close(); err == nil {
+			err = rerr
+		}
+	}()
+
+	if v != nil {
+		if w, ok := v.(io.Writer); ok {
+			_, err := io.Copy(w, resp.Body)
+			if err != nil {
+				return nil, err
+			}
+		} else {
+			err := json.NewDecoder(resp.Body).Decode(v)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
+
+	return resp, err
 }
