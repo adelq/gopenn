@@ -6,6 +6,9 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"reflect"
+
+	"github.com/google/go-querystring/query"
 )
 
 const (
@@ -33,6 +36,28 @@ type ServiceMeta struct {
 	NumberPages        int    `json:"number_of_pages"`
 	PreviousPageNumber int    `json:"previous_page_number"`
 	ResultsPerPage     int    `json:"results_per_page"`
+}
+
+// addOptions adds an interface of url options to a request
+func addOptions(s string, opt interface{}) (string, error) {
+	v := reflect.ValueOf(opt)
+
+	if v.Kind() == reflect.Ptr && v.IsNil() {
+		return s, nil
+	}
+
+	u, err := url.Parse(s)
+	if err != nil {
+		return s, err
+	}
+
+	qv, err := query.Values(opt)
+	if err != nil {
+		return s, err
+	}
+
+	u.RawQuery = qv.Encode()
+	return u.String(), nil
 }
 
 // NewClient returns a new Penn OpenData API client.
