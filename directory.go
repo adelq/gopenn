@@ -14,6 +14,8 @@ type DirectoryServiceOp struct {
 	client *Client
 }
 
+var _ DirectoryService = &DirectoryServiceOp{}
+
 // Expected JSON structure from results from directory
 type Person struct {
 	AdditionalData string `json:"additional_data_available"`

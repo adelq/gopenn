@@ -70,6 +70,7 @@ func NewClient(username string, password string) *Client {
 	c.BaseURL = baseURL
 	c.username = username
 	c.password = password
+	c.Directory = &DirectoryServiceOp{client: c}
 	return c
 }
 
