@@ -9,7 +9,7 @@ This is the Penn OpenData API implementation in Go.
 To get started, just run
 
 ```
-go get github.com/adelq/penn-sdk-go
+go get github.com/adelq/gopenn
 ```
 
 ## Requesting an API key

@@ -1,4 +1,4 @@
-package penn
+package gopenn
 
 import "os"
 
