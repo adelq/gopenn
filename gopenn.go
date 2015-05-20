@@ -27,6 +27,7 @@ type Client struct {
 
 	// Services for communicating with API
 	Directory DirectoryService
+	Registrar RegistrarService
 }
 
 type ServiceMeta struct {
@@ -71,6 +72,7 @@ func NewClient(username string, password string) *Client {
 	c.username = username
 	c.password = password
 	c.Directory = &DirectoryServiceOp{client: c}
+	c.Registrar = &RegistrarServiceOp{client: c}
 	return c
 }
 
